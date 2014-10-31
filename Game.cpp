@@ -4,22 +4,29 @@ Game::Game()
 {
 	window.setFramerateLimit(60);
 
+	// Startup text
 	Arial.loadFromFile("arial.ttf");
 	StateText.setFont(Arial);
-	StateText.setCharacterSize(30);
-	StateText.setPosition(windowWidth / 2.0f - 120.0f, windowHeight / 2.0f - 130.0f);
-	StateText.setString("Press SPACE to begin");
 	StateText.setColor(sf::Color::White);
+	StateText.setCharacterSize(30);
+	StateText.setString("Press SPACE to begin");
+	CenterText(StateText);
 }
 
 void Game::start() {
-	for (int i = 0; i < XBrickCount; ++i) {
+	for (int i = 0; i < XBrickCount; ++i) { // Create and place bricks
 		for (int j = 0; j < YBrickCount; ++j) {
 			float x = i * (Brick::width + XBrickSpacing);
 			float y = j * (Brick::height + YBrickSpacing);
 			bricks.emplace_back(XBrickStartOffset + x, YBrickStartOffset + y);
 		}
 	}
+}
+
+void Game::CenterText(sf::Text& t) {
+	sf::FloatRect textRect = t.getLocalBounds();
+	t.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height + 100.0f / 2.0f);
+	t.setPosition(windowWidth / 2.0f, windowHeight / 2.0f);
 }
 
 template <class T1, class T2>
@@ -81,8 +88,13 @@ void Game::updateAllObjects() {
 
 		// Check loss
 		if (ball.Loss) {
-			state = State::GameOver;
-			StateText.setString("Game over");
+			ball.Loss = false;
+			ball.Reinitialize(); // Restart ball
+			if (--lives == 0) { // Decrement lives and check for game over
+				state = State::GameOver;
+				StateText.setString("Game over");
+				CenterText(StateText);
+			}
 		}
 	}
 }
@@ -121,6 +133,7 @@ void Game::run() {
 						state = State::Paused; 
 						StateText.setPosition(windowWidth / 2.0f - 50.0f, windowHeight / 2.0f - 130.0f);
 						StateText.setString("Paused"); 
+						CenterText(StateText);
 					}
 					else if (state == State::Paused) state = State::Running;
 				}
@@ -144,8 +157,4 @@ void Game::run() {
 
 		window.display();
 	}
-}
-
-Game::~Game()
-{
 }

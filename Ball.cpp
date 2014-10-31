@@ -2,7 +2,7 @@
 
 const float Ball::radius{ 8.0f };
 
-Ball::Ball(float x, float y, int l) : StartX(x), StartY(y), lives(l) {
+Ball::Ball(float x, float y) : StartX(x), StartY(y) {
 	shape.setPosition(x, y);
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius); // Center of the object
@@ -24,10 +24,7 @@ void Ball::CheckWallCollisions() {
 		velocity.y = speed; // Send ball flying downwards
 	else if (getTop() > windowHeight) {
 		// Lose condition, reduce lives
-		--lives;
-
-		// Check for Game Over
-		lives == 0 ? Loss = true : Reinitialize();
+		Loss = true;
 	}
 }
 
@@ -39,7 +36,3 @@ void Ball::update() {
 void Ball::draw(sf::RenderWindow& targetWindow) {
 	targetWindow.draw(shape);
 }
-
-//Ball::~Ball()
-//{
-//}

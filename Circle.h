@@ -3,7 +3,7 @@
 
 #include <SFML\Graphics.hpp>
 
-struct Circle
+struct Circle // Declared as a struct to make methods public by default
 {
 	sf::CircleShape shape;
 

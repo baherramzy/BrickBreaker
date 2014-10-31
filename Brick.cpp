@@ -18,7 +18,3 @@ void Brick::update() {
 void Brick::draw(sf::RenderWindow& targetWindow) {
 	targetWindow.draw(shape);
 }
-
-//Brick::~Brick()
-//{
-//}

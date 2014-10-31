@@ -3,7 +3,7 @@
 
 #include <SFML\Graphics.hpp>
 
-struct Rectangle
+struct Rectangle // Declared as a struct to make methods public by default
 {
 	sf::RectangleShape shape;
 

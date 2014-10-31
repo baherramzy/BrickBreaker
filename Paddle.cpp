@@ -27,7 +27,3 @@ void Paddle::update() {
 void Paddle::draw(sf::RenderWindow& targetWindow) {
 	targetWindow.draw(shape);
 }
-
-//Paddle::~Paddle()
-//{
-//}
